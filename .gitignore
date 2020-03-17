@@ -22,6 +22,8 @@
 
 # Flutter/Dart/Pub related
 **/doc/api/
+.metadata
+.vscode/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
