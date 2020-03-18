@@ -46,9 +46,14 @@ class MyApp extends StatelessWidget{
                 CircleAvatar(
                   backgroundImage: NetworkImage("https://sss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1583400416&di=f0ffa47eddf475779dd0e21c6a80a099&src=http://a0.att.hudong.com/78/52/01200000123847134434529793168.jpg"),
                   backgroundColor: Colors.red,
-                  radius: 100,
+                  radius: 80,
                 ),
                 Text("哈哈",style: TextStyle(color: Colors.black, fontSize: 18),),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Icon(Icons.delete),
+                )
               ],
             ),
           )
