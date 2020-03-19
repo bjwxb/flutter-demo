@@ -14,6 +14,14 @@ class _FormTestRouteState extends State<TextFieldExample> {
   TextEditingController _pwdController = new TextEditingController();
   GlobalKey _formKey= new GlobalKey<FormState>();
 
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.addListener((){
+      print("${_nameController.value.text}");
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,58 +37,121 @@ class _FormTestRouteState extends State<TextFieldExample> {
             child: Container(
               child: Column(
                 children: <Widget>[
-                  TextFormField(
-                      autofocus: true,
-                      controller: _nameController,
-                      keyboardType: TextInputType.phone,
-                      inputFormatters: [
-                        //RegExp("[a-z,A-Z,0-9]")//限制只允许输入字母和数字
-                        WhitelistingTextInputFormatter(RegExp("[0-9]")),
-                        //WhitelistingTextInputFormatter.digitsOnly//限制只允许输入数字
-                        LengthLimitingTextInputFormatter(11),//限制输入长度不超过11位
-                      ],
-                      autovalidate: true,//是否开启自动校验
+                  Container(
+                    margin: const EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                    constraints: BoxConstraints(
+                        maxHeight: 40,
+                        maxWidth: double.infinity
+                    ),
+                    child: new TextField(
+                      //textAlignVertical: TextAlignVertical.center,
+                      //textAlign: TextAlign.justify,
                       decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(vertical: 5),
+                        hintText: '请输入搜索内容',
+                        hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+                        prefixIcon: Icon(Icons.search),
+                        labelStyle: TextStyle(fontSize: 14, color: Colors.red),
+                        // contentPadding: EdgeInsets.all(10),
+//                        border: OutlineInputBorder(
+//                          borderRadius: BorderRadius.circular(30),
+//                          borderSide: BorderSide(color: Colors.blue), //边框的颜色BorderSide.none//
+//                        ),
+                        enabledBorder: OutlineInputBorder(//默认颜色
+                          borderSide: BorderSide(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        focusedBorder: OutlineInputBorder(//获取焦点后颜色
+                          borderSide: BorderSide(color: Colors.red),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        filled: true,
+                        fillColor: Color(0xffeeeeee),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 20),
+                    constraints: BoxConstraints(
+                        maxHeight: 44,
+                        maxWidth: double.infinity
+                    ),
+                    child: TextFormField(
+                        autofocus: true,
+                        controller: _nameController,
+                        keyboardType: TextInputType.phone,
+                        inputFormatters: [
+                          //RegExp("[a-z,A-Z,0-9]")//限制只允许输入字母和数字
+                          WhitelistingTextInputFormatter(RegExp("[0-9]")),
+                          //WhitelistingTextInputFormatter.digitsOnly//限制只允许输入数字
+                          LengthLimitingTextInputFormatter(11),//限制输入长度不超过11位
+                        ],
+                        //textAlign: TextAlign.center,
+                        autovalidate: false,//是否开启自动校验
+                        decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(//默认颜色
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                            focusedBorder: UnderlineInputBorder(//获取焦点后颜色
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
 //                      contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
 //                      labelText: "用户名",
-                          hintText: "请输入手机号",
-                          icon: Icon(Icons.person),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              Icons.close,
-                            ),
-                            onPressed: (){
-                              //解决点击事件报异常
-                              WidgetsBinding.instance.addPostFrameCallback((_) => _nameController.clear());
-                            },
-                          )
-                      ),
-                      // 校验用户名
-                      validator: (v) {
-                        return v.trim().length > 0 ? null : "手机号不能为空";
-                      }
+                            hintText: "请输入手机号",
+                            //helperText: "手机号不能为空",校验提示内容
+                            //helperStyle: TextStyle(color: Colors.blue),//校验提示style
+                            icon: Icon(Icons.person),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                Icons.close,
+                              ),
+                              onPressed: (){
+                                //解决点击事件报异常
+                                WidgetsBinding.instance.addPostFrameCallback((_) => _nameController.clear());
+                              },
+                            )
+                        ),
+                        // 校验用户名
+                        validator: (v) {
+                          print(v);
+                          return v.trim().length > 0 ? null : "手机号不能为空";
+                        }
 
+                    ),
                   ),
-                  TextFormField(
-                      controller: _pwdController,
-                      decoration: InputDecoration(
+                  Container(
+                    constraints: BoxConstraints(
+                        maxHeight: 40,
+                        maxWidth: double.infinity
+                    ),
+                    child: TextFormField(
+                        controller: _pwdController,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
 //                      labelText: "密码",
                           hintText: "请输入密码",
-                          icon: Icon(Icons.lock)
-                      ),
-                      inputFormatters: [
-                        //RegExp("[a-z,A-Z,0-9]")//限制只允许输入字母和数字
-                        WhitelistingTextInputFormatter(RegExp("[a-z,A-Z,0-9]")),
-                        //WhitelistingTextInputFormatter.digitsOnly//限制只允许输入数字
-                        LengthLimitingTextInputFormatter(16),
-                      ],
-                      obscureText: true,
-                      //校验密码
-                      validator: (v) {
-                        return v
-                            .trim()
-                            .length > 5 ? null : "密码不能少于6位";
-                      }
+                          icon: Icon(Icons.lock),
+                          enabledBorder: OutlineInputBorder(//默认颜色
+                            borderSide: BorderSide(color: Colors.blue),
+                          ),
+                          focusedBorder: OutlineInputBorder(//获取焦点后颜色
+                            borderSide: BorderSide(color: Colors.red),
+                          ),
+                        ),
+                        inputFormatters: [
+                          //RegExp("[a-z,A-Z,0-9]")//限制只允许输入字母和数字
+                          WhitelistingTextInputFormatter(RegExp("[a-z,A-Z,0-9]")),
+                          //WhitelistingTextInputFormatter.digitsOnly//限制只允许输入数字
+                          LengthLimitingTextInputFormatter(16),
+                        ],
+                        obscureText: true,
+                        //校验密码
+                        validator: (v) {
+                          return v
+                              .trim()
+                              .length > 5 ? null : "密码不能少于6位";
+                        }
+                    ),
                   ),
                   // 登录按钮
                   Container(
