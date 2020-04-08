@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myapp/provider/counter.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(TextFieldExample());
 
@@ -37,6 +39,12 @@ class _FormTestRouteState extends State<TextFieldExample> {
             child: Container(
               child: Column(
                 children: <Widget>[
+                  Consumer<Counter>(
+                    builder: (context, counter, child) => Text(
+                      '${counter.value}',
+                      style: Theme.of(context).textTheme.display1,
+                    ),
+                  ),
                   Container(
                     margin: const EdgeInsets.only(left: 10, right: 10, bottom: 5),
                     constraints: BoxConstraints(
@@ -167,15 +175,16 @@ class _FormTestRouteState extends State<TextFieldExample> {
                         borderRadius: BorderRadius.all(Radius.circular(6)),
                       ),
                       onPressed: () {
+                        Provider.of<Counter>(context, listen: false).increment();
                         //在这里不能通过此方式获取FormState，context不对
                         //print(Form.of(context));
 
                         // 通过_formKey.currentState 获取FormState后，
                         // 调用validate()方法校验用户名密码是否合法，校验
                         // 通过后再提交数据。
-                        if((_formKey.currentState as FormState).validate()){
-                          //验证通过提交数据
-                        }
+//                        if((_formKey.currentState as FormState).validate()){
+//                          //验证通过提交数据
+//                        }
                       },
                     ),
                   )

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import "package:myapp/routes/Application.dart";
 import 'package:myapp/routes/route_handler.dart';
 import 'package:myapp/routes/routes.dart';
+import 'package:myapp/provider/counter.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(HomePage());
 
@@ -50,6 +52,12 @@ class HomePage extends StatelessWidget{
                   onPressed: (){},
                   textColor: Colors.red,//文字颜色
                 ),
+//                Consumer<Counter>(
+//                  builder: (context, counter, child) => Text(
+//                    '${counter.value}',
+//                    style: Theme.of(context).textTheme.display1,
+//                  ),
+//                ),
                 OutlineButton(//默认有一个边框，不带阴影且背景透明。按下后，边框颜色会变亮、同时出现背景和阴影(较弱)
                   child: Text("登陆"),
                   onPressed: (){},
@@ -73,7 +81,9 @@ class HomePage extends StatelessWidget{
                   ),
                   label: Text("添加", style: TextStyle(color: Colors.blueGrey),),
                   padding: const EdgeInsets.all(5),
-                  onPressed: (){},
+                  onPressed: (){
+                    Provider.of<Counter>(context, listen: false).increment();
+                  },
                   highlightElevation: 3,//点击阴影
                   textColor: Colors.red,//文字颜色
                   borderSide: BorderSide(width: 1, color: Colors.deepOrange),
