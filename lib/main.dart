@@ -1,17 +1,15 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:fluro/fluro.dart';
 import 'package:myapp/routes/Application.dart';
-import 'routes/routes.dart';
-import 'routes/route_handler.dart';
+
 import 'index.dart';
+import 'routes/routes.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget{
-
-  MyApp(){
-    final router = new Router();
+class MyApp extends StatelessWidget {
+  MyApp() {
+    final router = new FluroRouter();
     Routes.configureRoute(router);
     Application.router = router;
   }
@@ -20,8 +18,8 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context) {
     return Container(
       child: MaterialApp(
-          title: "text wedgit",
-          home: IndexPage(),
+        title: "text wedgit",
+        home: IndexPage(),
         onGenerateRoute: Application.router.generator,
       ),
     );

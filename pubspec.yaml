@@ -28,7 +28,7 @@ dependencies:
   #https://pub.dev/packages/provider
   provider: ^4.0.4
   # https://github.com/theyakka/fluro
-  fluro: "^1.6.1"
+  fluro: "^2.0.3"
 
 dev_dependencies:
   flutter_test:
