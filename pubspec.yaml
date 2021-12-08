@@ -29,6 +29,8 @@ dependencies:
   provider: ^4.0.4
   # https://github.com/theyakka/fluro
   fluro: "^2.0.3"
+  # https://github.com/jonataslaw/getx/blob/master/README.zh-cn.md
+  get: ^4.3.8
 
 dev_dependencies:
   flutter_test:
