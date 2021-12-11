@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:myapp/mvvm/page/mine/mine_controller.dart';
 import 'package:myapp/mvvm/routes/app_route.dart';
+import 'package:myapp/mvvm/view/water_ripple_widget.dart';
 
 /*
  * 描述: tab -  我的
@@ -13,6 +16,7 @@ import 'package:myapp/mvvm/routes/app_route.dart';
 class MinePage extends GetView<MineController> {
   @override
   Widget build(BuildContext context) {
+    List<Widget> list = [Box(), Box()];
     return Scaffold(
       // appBar: TitleBar(
       //   hideBackImage: true,
@@ -21,13 +25,15 @@ class MinePage extends GetView<MineController> {
       body: Container(
         alignment: Alignment.center,
         color: Colors.grey.withOpacity(0.2),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: ListView(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Obx(() => Text("Counter ${controller.count.value}")),
+            Center(
+              child: Obx(() => Text("Counter ${controller.count.value}")),
+            ),
             Container(
-              margin: EdgeInsets.only(top: 66),
+              margin: EdgeInsets.only(top: 20),
               child: TextButton(
                 onPressed: () {
                   controller.increaseCount();
@@ -61,7 +67,7 @@ class MinePage extends GetView<MineController> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 66),
+              margin: EdgeInsets.only(top: 20),
               child: TextButton(
                 onPressed: () {
                   Get.toNamed(AppRoutes.mineSetting);
@@ -93,9 +99,51 @@ class MinePage extends GetView<MineController> {
                 ),
               ),
             ),
+            Container(
+              padding: EdgeInsets.only(top: 30),
+              width: double.infinity,
+              height: 200,
+              child: WaterRippleWidget(),
+            )
           ],
         ),
       ),
     );
   }
+}
+
+class StateBox extends StatefulWidget {
+  const StateBox({Key key}) : super(key: key);
+
+  @override
+  _StateBoxState createState() => _StateBoxState();
+}
+
+class _StateBoxState extends State<StateBox> {
+  final color = randomColor();
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100,
+      height: 100,
+      color: color,
+    );
+  }
+}
+
+class Box extends StatelessWidget {
+  Box({Key key}) : super(key: key);
+  final color = randomColor();
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100,
+      height: 100,
+      color: color,
+    );
+  }
+}
+
+Color randomColor() {
+  return Color.fromARGB(255, Random().nextInt(256) + 0, Random().nextInt(256) + 0, Random().nextInt(256) + 0);
 }
