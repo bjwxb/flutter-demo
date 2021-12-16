@@ -7,10 +7,17 @@
 
 class Ex {}
 
+String getName() {
+  print('---future vaule');
+  return 'July';
+}
+
 void main() {
   //1. 先执行main isolate中的语句
   print("===== main start =====");
 
+  Future.sync(() => print('------ future-sync'));
+  Future.value(getName());
   Future.delayed(Duration(seconds: 1), () {
     print("***** future delayed ******");
   });
