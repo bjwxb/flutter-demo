@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:myapp/mvvm/commponets/title_bar.dart';
+import 'package:myapp/mvvm/page/base/base_page.dart';
 import 'package:myapp/mvvm/page/mine/mine_controller.dart';
 import 'package:myapp/mvvm/page/mine/setting/setting_controller.dart';
 import 'package:myapp/widget/bobble/bobble_bean.dart';
@@ -18,42 +19,21 @@ import 'package:myapp/widget/bobble/bobble_bean.dart';
  * key : 1. globalKey - a. 可以通过key.currentState 跨widget访问状态/请求方法; b.可以在widget树改变时保存widget状态
  *       2. localKey
  */
-class SettingPage extends StatelessWidget {
+class SettingPage extends BasePage<SettingController> {
   // final SettingController controller = SettingController();
-  final SettingController controller = Get.put(SettingController());
+  // final SettingController controller = Get.put(SettingController());
   final MineController mineController = Get.find<MineController>();
 
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        color: Colors.red[100],
-        // alignment: Alignment.center,
-        child: MyRenderBox(
-          child: FlutterLogo(
-            size: 100,
-          ),
-        ),
-      ),
-    );
+  Widget buildWidget(BuildContext context) {
+    controller.getData();
+
     return Container(
-      color: Colors.red[100],
-      child: CustomMultiChildLayout(
-        delegate: MyDelegate(),
-        children: [
-          LayoutId(
-            id: 1,
-            child: FlutterLogo(
-              size: 50,
-            ),
-          ),
-          LayoutId(
-            id: 2,
-            child: FlutterLogo(),
-          ),
-        ],
-      ),
+      color: Colors.red,
     );
+  }
+
+  Widget buildww(BuildContext context) {
     return Scaffold(
       appBar: TitleBar(
         title: '设置',
@@ -83,6 +63,36 @@ class SettingPage extends StatelessWidget {
         },
       ),
     );
+    return Center(
+      child: Container(
+        color: Colors.red[100],
+        // alignment: Alignment.center,
+        child: MyRenderBox(
+          child: FlutterLogo(
+            size: 100,
+          ),
+        ),
+      ),
+    );
+    return Container(
+      color: Colors.red[100],
+      child: CustomMultiChildLayout(
+        delegate: MyDelegate(),
+        children: [
+          LayoutId(
+            id: 1,
+            child: FlutterLogo(
+              size: 50,
+            ),
+          ),
+          LayoutId(
+            id: 2,
+            child: FlutterLogo(),
+          ),
+        ],
+      ),
+    );
+
     return Container(
         color: Colors.grey,
         alignment: AlignmentDirectional.center,

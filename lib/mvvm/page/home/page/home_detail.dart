@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:myapp/mvvm/commponets/title_bar.dart';
+import 'package:myapp/mvvm/page/base/load_state.dart';
 import 'package:myapp/mvvm/page/home/page/home_detail_controller.dart';
 
 class HomeDetailPage extends GetView<HomeDetailController> {
@@ -22,62 +23,80 @@ class HomeDetailPage extends GetView<HomeDetailController> {
     if (null != data) {
       name = data['name'];
     }
+    controller.getData();
+
     return Scaffold(
       appBar: TitleBar(
         title: 'Home Detail',
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20),
-              child: Text(
-                'hello $name',
-                style: TextStyle(fontSize: 18, color: Colors.red),
-              ),
+      body: _buildBody(controller, name),
+    );
+  }
+
+  Widget _buildBody(HomeDetailController controller, String name) {
+    return Obx(() {
+      return LoadStateLayout(
+        state: controller.state.value,
+        errorRetry: () => controller.getSuccessData(),
+        emptyRetry: () => controller.getData(),
+        successWidget: _buildContentWidget(name),
+      );
+    });
+  }
+
+  Widget _buildContentWidget(String name) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 20),
+            child: Text(
+              'hello $name',
+              style: TextStyle(fontSize: 18, color: Colors.red),
             ),
-            RaisedButton(
-              onPressed: () {
-                Get.back(result: {"result": "back_param"});
-              },
-              child: Text('带参数返回'),
-            ),
-            RaisedButton(
-              onPressed: () {
-                streamController.sink.add(10);
-              },
-              child: Text('10'),
-            ),
-            RaisedButton(
-              onPressed: () {
-                streamController.sink.add('hi');
-              },
-              child: Text('hi'),
-            ),
-            RaisedButton(
-              onPressed: () {
-                streamController.sink.addError('error');
-              },
-              child: Text('error'),
-            ),
-            StreamBuilder(
-                stream: streamController.stream,
-                builder: (ctx, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.none:
-                      return Text('${snapshot.data}');
-                    case ConnectionState.waiting:
-                      return Text('${snapshot.data}');
-                    case ConnectionState.active:
-                      return Text('${snapshot.data}');
-                    case ConnectionState.done:
-                      return Text('${snapshot.data}');
-                  }
-                  return CircularProgressIndicator();
-                })
-          ],
-        ),
+          ),
+          RaisedButton(
+            onPressed: () {
+              Get.back(result: {"result": "back_param"});
+            },
+            child: Text('带参数返回'),
+          ),
+          RaisedButton(
+            onPressed: () {
+              streamController.sink.add(10);
+            },
+            child: Text('10'),
+          ),
+          RaisedButton(
+            onPressed: () {
+              streamController.sink.add('hi');
+            },
+            child: Text('hi'),
+          ),
+          RaisedButton(
+            onPressed: () {
+              streamController.sink.addError('error');
+              streamController.sink.close();
+            },
+            child: Text('error'),
+          ),
+          StreamBuilder(
+              stream: streamController.stream,
+              builder: (ctx, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                    return Text('${snapshot.data}');
+                  case ConnectionState.waiting:
+                    return Text('${snapshot.data}');
+                  case ConnectionState.active:
+                    return Text('${snapshot.data}');
+                  case ConnectionState.done:
+                    return Text('${snapshot.data}');
+                }
+                return CircularProgressIndicator();
+              })
+        ],
       ),
     );
   }

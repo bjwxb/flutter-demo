@@ -18,6 +18,5 @@ class MainBinding extends Bindings {
     Get.lazyPut<HomeController>(() => HomeController());
     Get.lazyPut<MedicController>(() => MedicController());
     Get.lazyPut<MineController>(() => MineController());
-    // Get.lazyPut<SettingController>(() => SettingController());
   }
 }
